@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+
+    stages {
+        // клонирование git-репозитория
+        stage('git clone') {
+            steps {
+                checkout([$class: 'GitSCM', 
+                          branches: [[name: 'master']], 
+                          userRemoteConfigs: [[url: 'https://github.com/Airmareing/ML_for_Solar_Power_Forecasting.git']]])
+                echo 'clone git-repository'
+            }
+        }
+        // подготовка датасета
+        stage('data preprocessing') {
+            steps {
+                sh 'python3 data_preprocessing.py'
+                echo 'preprocessing data'
+            }
+        }
+        // обучение модели
+        stage('model preparation') {
+            steps {
+                sh 'python3 model_preparation.py'
+                echo 'model preparation'
+            }
+        }
+        // тестирование модели
+        stage('model testing') {
+            steps {
+                sh 'python3 model_testing.py'
+                echo 'model testing'
+            }
+        }
+    }
+}
