@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        TAG_VERSION: 1
+    image: ml_app:1
+    environment:
+      - GPT_API_KEY=${GPT_API_KEY}
+      - FOLDER_ID=${FOLDER_ID}
+      - API_OCR=${API_OCR}
+    volumes:
+      - .:/app
